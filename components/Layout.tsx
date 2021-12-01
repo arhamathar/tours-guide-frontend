@@ -1,17 +1,17 @@
-import React from 'react'
-import Navbar from 'components/Navbar'
+import React from 'react';
+import Navbar from 'components/Navbar';
 
 interface IProps {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
 const Layout: React.FC<IProps> = (props) => {
     return (
-        <React.Fragment>
+        <div className="bg-indigo-100 h-screen">
             <Navbar />
             {props.children}
-        </React.Fragment>
-    )
-}
+        </div>
+    );
+};
 
-export default Layout
+export default Layout;
