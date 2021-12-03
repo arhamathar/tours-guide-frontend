@@ -9,7 +9,7 @@ module.exports = {
     },
     variants: {
         extend: {
-            borderStyle: ['hover', 'active'],
+            borderStyle: ['hover', 'active', 'focus'],
         },
     },
     plugins: [],
