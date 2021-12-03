@@ -7,6 +7,7 @@ interface IProps {
     type?: string;
     placeholder?: string;
     required?: boolean;
+    icon?: React.ReactNode;
     onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
@@ -18,14 +19,15 @@ const Input: React.FC<IProps> = ({
     onChange,
     type = 'text',
     required = false,
+    icon,
 }) => {
     return (
-        <div className='flex flex-col py-2'>
+        <div className='flex flex-col py-1'>
             <label className='font-medium text-gray-600 text-opacity-75'>
                 {label}
             </label>
             <input
-                className='border-2 w-full placeholder-gray-500 border-gray-200 py-2 px-4 rounded-md focus:outline-none focus:border-purple-700'
+                className='border-2 w-full placeholder-gray-500 border-gray-200 py-1 px-4 rounded-md focus:outline-none focus:border-purple-700'
                 type={type}
                 value={value}
                 onChange={onChange}
