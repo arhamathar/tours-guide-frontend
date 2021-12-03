@@ -81,11 +81,12 @@ const Login = () => {
                 <option>Admin</option>
                 <option>Manager</option>
             </select>
-            <div className='flex justify-between items-center my-4'>
-                <button className='bg-purple-800 text-white py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide hover:shadow-lg'>
+            <div className='block md:flex justify-between items-center my-4'>
+                <button className='w-full md:w-max bg-purple-800 text-white py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide hover:shadow-lg'>
                     signup
                 </button>
-                <button className='bg-transparent border-2 border-purple-800 text-purple-800 py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide'>
+                <p className='font-medium text-gray-600 text-opacity-75'>OR</p>
+                <button className='w-full md:w-max bg-transparent border-2 border-purple-800 text-purple-800 py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide'>
                     <Link href='/auth/login'> login</Link>
                 </button>
             </div>

@@ -23,7 +23,7 @@ const Input: React.FC<IProps> = ({
 }) => {
     return (
         <div className='flex flex-col py-1'>
-            <label className='font-medium text-gray-600 text-opacity-75'>
+            <label className='font-medium text-gray-600 text-opacity-75 mb-1'>
                 {label}
             </label>
             <input

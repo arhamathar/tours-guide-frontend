@@ -7,7 +7,7 @@ interface IProps {
 
 const Layout: React.FC<IProps> = (props) => {
     return (
-        <div className='bg-indigo-100 h-screen'>
+        <div className='bg-indigo-100 min-h-screen'>
             <Navbar />
             {props.children}
         </div>
