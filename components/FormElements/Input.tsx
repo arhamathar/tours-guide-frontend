@@ -19,7 +19,6 @@ const Input: React.FC<IProps> = ({
     onChange,
     type = 'text',
     required = false,
-    icon,
 }) => {
     return (
         <div className='flex flex-col py-1'>

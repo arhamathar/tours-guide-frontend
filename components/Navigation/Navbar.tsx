@@ -1,19 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { NAV_BAR_LINKS } from 'helpers/constants';
+
 import ProfilePic from 'components/Navigation/ProfilePic';
 
 const Navbar = () => {
     const { pathname } = useRouter();
+    const [openNavbar, setOpenNavbar] = React.useState<boolean>(false);
 
     return (
         <React.Fragment>
             <nav className='bg-purple-800 h-16'>
                 <div className='flex items-center justify-between'>
                     <div className='md:hidden flex items-center h-auth hover:bg-purple-500 py-3 px-4 hover:border-white border-b-4 border-transparent'>
-                        <button className='outline-none mobile-menu-button cursor-pointer'>
+                        <button
+                            className='outline-none mobile-menu-button cursor-pointer'
+                            onClick={() => setOpenNavbar(!openNavbar)}
+                        >
                             <div className='w-8 h-0.5 bg-white my-2'></div>
                             <div className='w-8 h-0.5 bg-white my-2'></div>
                             <div className='w-8 h-0.5 bg-white my-2'></div>
@@ -54,20 +58,22 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-            <div className='md:hidden' id='mobile-menu'>
-                <div className='bg-purple-800 text-white text-center text-2xl font-semibold uppercase py-2'>
-                    {NAV_BAR_LINKS.map((navlink) => (
-                        <div
-                            key={navlink.label}
-                            className='hover:bg-purple-500 p-4 transition duration-300'
-                        >
-                            <Link href={navlink.href}>
-                                <a>{navlink.label}</a>
-                            </Link>
-                        </div>
-                    ))}
+            {openNavbar && (
+                <div className='md:hidden z-10 origin-top' id='mobile-menu'>
+                    <div className='bg-purple-800 text-white text-center text-2xl font-semibold uppercase py-2'>
+                        {NAV_BAR_LINKS.map((navlink) => (
+                            <div
+                                key={navlink.label}
+                                className='hover:bg-purple-500 p-4 transition duration-300'
+                            >
+                                <Link href={navlink.href}>
+                                    <a>{navlink.label}</a>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </React.Fragment>
     );
 };
