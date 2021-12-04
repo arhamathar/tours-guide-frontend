@@ -65,6 +65,7 @@ const Navbar = () => {
                             <div
                                 key={navlink.label}
                                 className='hover:bg-purple-500 p-4 transition duration-300'
+                                onClick={() => setOpenNavbar(false)}
                             >
                                 <Link href={navlink.href}>
                                     <a>{navlink.label}</a>
