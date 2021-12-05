@@ -3,10 +3,12 @@ import Head from 'next/head';
 import Router from 'next/router';
 import type { AppProps } from 'next/app';
 import NProgress from 'nprogress';
+import { ToastContainer } from 'react-toastify';
 
 import 'styles/global.css';
 import 'nprogress/nprogress.css';
 import 'tailwindcss/tailwind.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from 'components/Layout';
 
@@ -31,6 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 />
                 <link rel='icon' href='/favicon.ico' />
             </Head>
+            <ToastContainer />
             <Component {...pageProps} />
         </Layout>
     );

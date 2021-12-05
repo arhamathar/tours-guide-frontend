@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import nProgress from 'nprogress';
 import axios, { AxiosRequestConfig } from 'axios';
 
@@ -16,7 +17,8 @@ const useApi = ({
     defaultResponse = null,
     config,
 }: Options) => {
-    config = { ...config, method };
+    config = { ...config, method, data: { ...defaultResponse } };
+    axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
 
     const [state, setState] = React.useState<{
         loading: boolean;
@@ -33,11 +35,13 @@ const useApi = ({
         setState({ loading: true, response: null, errorResponse: null });
         nProgress.start();
         try {
-            const response = await axios(url, config);
-            console.log(response);
+            const response = await axios({ url, ...config });
             setState({ loading: false, response, errorResponse: null });
             nProgress.done();
-        } catch (e) {
+            return response;
+        } catch (e: any) {
+            console.log(e.response.data);
+            toast.error(e.response.data.message || 'Something went wrong');
             setState({ loading: false, response: null, errorResponse: e });
             nProgress.done();
         }

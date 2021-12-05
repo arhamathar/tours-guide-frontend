@@ -1,14 +1,25 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
+import Button from 'components/FormElements/Button';
+import useApi from 'hooks/useApi';
 
 const Login = () => {
+    const router = useRouter();
+
     const [loginUser, setLoginUser] = React.useState({
         email: '',
         password: '',
         role: 'USER',
+    });
+
+    const { loading, sendRequest } = useApi({
+        url: `/auth/login`,
+        method: 'POST',
+        defaultResponse: loginUser,
     });
 
     const onChangeHandler = (
@@ -22,12 +33,20 @@ const Login = () => {
         }));
     };
 
+    const onSubmitHandler = async () => {
+        try {
+            const response = await sendRequest();
+            if (response) {
+                router.push('/');
+            }
+        } catch (e) {}
+    };
+
     return (
         <Card>
             <div className='uppercase font-bold text-3xl text-center text-purple-800 tracking-wider mb-3'>
                 LOGIN
             </div>
-
             <Input
                 name='email'
                 label='Email'
@@ -57,13 +76,23 @@ const Login = () => {
                 <option>Manager</option>
             </select>
             <div className='block md:flex justify-between items-center my-4'>
-                <button className='w-full md:w-max bg-purple-800 text-white py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide hover:shadow-lg'>
+                <Button
+                    color='primary'
+                    customClass='uppercase w-full md:w-max'
+                    onClick={onSubmitHandler}
+                    isLoading={loading}
+                >
                     login
-                </button>
-                <p className='font-medium text-gray-600 text-opacity-75'>OR</p>
-                <button className='w-full md:w-max bg-transparent border-2 border-purple-800 text-purple-800 py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide'>
+                </Button>
+                <p className='font-medium text-center my-3 text-gray-600 text-opacity-75'>
+                    OR
+                </p>
+                <Button
+                    color='secondary'
+                    customClass='uppercase w-full md:w-max'
+                >
                     <Link href='/auth/register'> signup</Link>
-                </button>
+                </Button>
             </div>
             <Link href='/auth/forgetPassword' passHref={true}>
                 <p className='font-medium text-gray-600 text-opacity-75 cursor-pointer'>
