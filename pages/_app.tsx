@@ -1,11 +1,22 @@
+import React from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
 import type { AppProps } from 'next/app';
-import 'tailwindcss/tailwind.css';
+import NProgress from 'nprogress';
+
 import 'styles/global.css';
+import 'nprogress/nprogress.css';
+import 'tailwindcss/tailwind.css';
 
 import Layout from 'components/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
+    React.useEffect(() => {
+        Router.events.on('routeChangeStart', () => NProgress.start());
+        Router.events.on('routeChangeComplete', () => NProgress.done());
+        Router.events.on('routeChangeError', () => NProgress.done());
+    }, []);
+
     return (
         <Layout>
             <Head>

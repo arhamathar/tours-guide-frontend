@@ -1,4 +1,5 @@
 import React from 'react';
+import nProgress from 'nprogress';
 import axios, { AxiosRequestConfig } from 'axios';
 
 interface Options {
@@ -30,12 +31,15 @@ const useApi = ({
 
     const sendRequest = React.useCallback(async () => {
         setState({ loading: true, response: null, errorResponse: null });
+        nProgress.start();
         try {
             const response = await axios(url, config);
             console.log(response);
             setState({ loading: false, response, errorResponse: null });
+            nProgress.done();
         } catch (e) {
             setState({ loading: false, response: null, errorResponse: e });
+            nProgress.done();
         }
     }, [url, config]);
 
