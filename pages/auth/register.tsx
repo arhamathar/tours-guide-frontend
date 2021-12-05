@@ -1,17 +1,28 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
+import useApi from 'hooks/useApi';
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
+import Button from 'components/FormElements/Button';
 
 const Login = () => {
+    const router = useRouter();
+
     const [signupUser, setSignupUser] = React.useState({
-        fName: '',
-        lName: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         mobile: '',
-        role: 'USER',
+        role: 'Traveller',
+    });
+
+    const { loading, sendRequest } = useApi({
+        url: `/auth/signup`,
+        method: 'POST',
+        defaultResponse: signupUser,
     });
 
     const onChangeHandler = (
@@ -25,6 +36,15 @@ const Login = () => {
         }));
     };
 
+    const onSubmitHandler = async () => {
+        try {
+            const response = await sendRequest();
+            if (response) {
+                router.push('/');
+            }
+        } catch (e) {}
+    };
+
     return (
         <Card>
             <div className='uppercase font-bold text-3xl text-center text-purple-800 tracking-wider mb-3'>
@@ -34,16 +54,16 @@ const Login = () => {
                 <Input
                     label='First Name'
                     placeholder='John'
-                    value={signupUser.fName}
+                    value={signupUser.firstName}
                     onChange={onChangeHandler}
-                    name='fName'
+                    name='firstName'
                 />
                 <Input
                     label='Last Name'
                     placeholder='Doe'
-                    value={signupUser.lName}
+                    value={signupUser.lastName}
                     onChange={onChangeHandler}
-                    name='lName'
+                    name='lastName'
                 />
             </div>
             <Input
@@ -76,19 +96,29 @@ const Login = () => {
                 onChange={onChangeHandler}
                 className='w-full border-2 border-gray-200 py-1 px-2 rounded-md focus:outline-none focus:border-purple-700'
             >
-                <option>User</option>
+                <option>Traveller</option>
                 <option>Guide</option>
                 <option>Admin</option>
                 <option>Manager</option>
             </select>
             <div className='block md:flex justify-between items-center my-4'>
-                <button className='w-full md:w-max bg-purple-800 text-white py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide hover:shadow-lg'>
+                <Button
+                    color='primary'
+                    customClass='uppercase w-full md:w-max'
+                    onClick={onSubmitHandler}
+                    isLoading={loading}
+                >
                     signup
-                </button>
-                <p className='font-medium text-gray-600 text-opacity-75'>OR</p>
-                <button className='w-full md:w-max bg-transparent border-2 border-purple-800 text-purple-800 py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide'>
-                    <Link href='/auth/login'> login</Link>
-                </button>
+                </Button>
+                <p className='font-medium text-center text-gray-600 text-opacity-75'>
+                    OR
+                </p>
+                <Button
+                    color='secondary'
+                    customClass='uppercase w-full md:w-max'
+                >
+                    <Link href='/auth/login'>login</Link>
+                </Button>
             </div>
         </Card>
     );

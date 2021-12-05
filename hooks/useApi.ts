@@ -35,17 +35,19 @@ const useApi = ({
         setState({ loading: true, response: null, errorResponse: null });
         nProgress.start();
         try {
-            const response = await axios({ url, ...config });
+            const { data } = await axios({ url, ...config });
             setState({ loading: false, response, errorResponse: null });
             nProgress.done();
-            return response;
+            console.log(data);
+            toast.success(data.message || 'success');
+            return data;
         } catch (e: any) {
             console.log(e.response.data);
             toast.error(e.response.data.message || 'Something went wrong');
             setState({ loading: false, response: null, errorResponse: e });
             nProgress.done();
         }
-    }, [url, config]);
+    }, [url, config, response]);
 
     return {
         loading: loading,

@@ -13,7 +13,7 @@ const Login = () => {
     const [loginUser, setLoginUser] = React.useState({
         email: '',
         password: '',
-        role: 'USER',
+        role: 'Traveller',
     });
 
     const { loading, sendRequest } = useApi({
@@ -70,7 +70,7 @@ const Login = () => {
                 onChange={onChangeHandler}
                 className='w-full border-2 border-gray-200 py-2 px-2 rounded-md focus:outline-none focus:border-purple-700'
             >
-                <option>User</option>
+                <option>Traveller</option>
                 <option>Guide</option>
                 <option>Admin</option>
                 <option>Manager</option>
