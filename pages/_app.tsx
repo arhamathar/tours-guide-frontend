@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, []);
 
     return (
-        <Layout>
+        <>
             <Head>
                 <title>Tours Guide | Home</title>
                 <meta
@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
             <ToastContainer theme={'colored'} />
             <Component {...pageProps} />
-        </Layout>
+        </>
     );
 }
 
