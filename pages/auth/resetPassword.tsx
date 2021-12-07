@@ -13,11 +13,7 @@ const Login = () => {
         confirmPassword: '',
     });
 
-    const onChangeHandler = (
-        e:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLSelectElement>,
-    ) => {
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewPassword((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,

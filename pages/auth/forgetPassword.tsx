@@ -1,18 +1,33 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
+import useApi from 'hooks/useApi';
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
+import Button from 'components/FormElements/Button';
 
 const Login = () => {
+    const router = useRouter();
     const [email, setEmail] = React.useState<string>('');
 
-    const onChangeHandler = (
-        e:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLSelectElement>,
-    ) => {
+    const { loading, sendRequest } = useApi({
+        url: `/auth/forgotPassword`,
+        method: 'POST',
+        defaultResponse: { email },
+    });
+
+    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
+    };
+
+    const onSubmitHandler = async () => {
+        try {
+            const response = await sendRequest();
+            if (response) {
+                router.push('/auth/login');
+            }
+        } catch (e) {}
     };
 
     return (
@@ -28,15 +43,23 @@ const Login = () => {
                 onChange={onChangeHandler}
             />
             <div className='block md:flex justify-between items-center my-4'>
-                <button className='w-full md:w-max bg-purple-800 text-white py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide hover:shadow-lg'>
-                    Send Link
-                </button>
+                <Button
+                    color='primary'
+                    customClass='uppercase w-full md:w-max'
+                    onClick={onSubmitHandler}
+                    isLoading={loading}
+                >
+                    send link
+                </Button>
                 <p className='text-center font-medium text-gray-600 text-opacity-75 my-3'>
                     OR
                 </p>
-                <button className='w-full md:w-max bg-transparent border-2 border-purple-800 text-purple-800 py-2 px-4 rounded-sm font-semibold transition duration-500 ease-in-out uppercase tracking-wide'>
-                    <Link href='/auth/register'>Create New</Link>
-                </button>
+                <Button
+                    color='secondary'
+                    customClass='uppercase w-full md:w-max'
+                >
+                    <Link href='/auth/register'> Create New</Link>
+                </Button>
             </div>
         </Card>
     );
