@@ -2,7 +2,7 @@ import React from 'react';
 import Input from 'components/FormElements/Input';
 import useApi from 'hooks/useApi';
 import Card from 'components/Cards/HotelOrGuideCard'
-
+import Map from 'components/Map/GoogleMap'
 const selection = () =>{
     const [minPrice,setMinPrice] = React.useState(0);
     const [maxPrice,setMaxPrice] = React.useState(100000000);
@@ -67,7 +67,7 @@ const selection = () =>{
 
     return (
         <div>
-            <div className="flex flex-col">
+            <div className="flex-col">
                   <div className="flex flex-row pb-6">
                       <Input 
                        name='minPrice'
@@ -93,7 +93,7 @@ const selection = () =>{
                       <h1>Filter by guide and hotel</h1>
                    </div>
                    <div className = "flex flex-row">
-                        <div>
+                        <div className="overflow-hidden">
                             {
                                 filteredResult.map((result)=>{
                                         // <div className="flex flex-col"></div>
@@ -107,9 +107,9 @@ const selection = () =>{
                                 })
                             }
                         </div>                   
-                            <div>
-                                <h1>Google map will come here</h1>
-                            </div>
+                        <div className="flo">
+                             <Map />
+                        </div>
                    </div>
             </div>
         </div>
