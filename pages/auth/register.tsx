@@ -7,7 +7,7 @@ import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
 import Button from 'components/FormElements/Button';
 
-const Login = () => {
+const Register = () => {
     const router = useRouter();
 
     const [signupUser, setSignupUser] = React.useState({
@@ -124,4 +124,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;

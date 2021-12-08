@@ -6,40 +6,62 @@ import useApi from 'hooks/useApi';
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
 import Button from 'components/FormElements/Button';
+import { toast } from 'react-toastify';
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
     const router = useRouter();
-    const [email, setEmail] = React.useState<string>('');
+    console.log(router);
+    const [newPassword, setNewPassword] = React.useState<{
+        password: string;
+        confirmPassword: string;
+    }>({
+        password: '',
+        confirmPassword: '',
+    });
 
     const { loading, sendRequest } = useApi({
-        url: `/auth/forgotPassword`,
-        method: 'POST',
-        defaultResponse: { email },
+        url: `/auth/resetPassword/${router.query.resetToken}`,
+        method: 'PATCH',
+        defaultResponse: newPassword,
     });
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+        setNewPassword((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
     };
 
     const onSubmitHandler = async () => {
         try {
+            if (newPassword.password !== newPassword.confirmPassword) {
+                toast.warn('Passwords does not match');
+                return;
+            }
             const response = await sendRequest();
             if (response) {
-                router.push('/auth/login');
+                router.push('/');
             }
         } catch (e) {}
     };
 
     return (
         <Card>
-            <div className='uppercase font-bold text-xl md:text-3xl  text-center text-purple-800 tracking-wider mb-3'>
-                forgot password
+            <div className='uppercase font-bold text-3xl text-center text-purple-800 tracking-wider mb-3'>
+                reset password
             </div>
             <Input
-                name='email'
-                label='Please enter your email address to reset your password.'
-                value={email}
-                type='email'
+                name='password'
+                label='Please enter your new password.'
+                value={newPassword.password}
+                type='password'
+                onChange={onChangeHandler}
+            />
+            <Input
+                name='confirmPassword'
+                label='Please confirm your new password.'
+                value={newPassword.confirmPassword}
+                type='password'
                 onChange={onChangeHandler}
             />
             <div className='block md:flex justify-between items-center my-4'>
@@ -58,11 +80,11 @@ const ForgotPassword = () => {
                     color='secondary'
                     customClass='uppercase w-full md:w-max'
                 >
-                    <Link href='/auth/register'> Create New</Link>
+                    <Link href='/auth/forgetPassword'>Resend Link</Link>
                 </Button>
             </div>
         </Card>
     );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
