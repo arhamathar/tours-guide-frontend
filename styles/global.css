@@ -7,13 +7,13 @@ body {
     min-height: 100vh;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    background-color: rgb(224, 231, 255);
+    /* background-color: rgba(224, 231, 255); */
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     background-color: transparent;
     width: 0.5rem;
-}
+} */
 
 ::-webkit-scrollbar-thumb {
     background-color: rgba(91, 33, 182);
