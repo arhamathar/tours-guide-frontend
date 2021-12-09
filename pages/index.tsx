@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { NextPage } from 'next';
 import { FC, useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
@@ -6,6 +7,10 @@ import { useRouter } from 'next/router';
 import Input from 'components/FormElements/Input';
 import NavButton from 'components/swiper/NavButton';
 import SwiperSection from 'components/swiper/SwiperSection';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+
 
 const Home: NextPage = () => {
     interface Iprops {
@@ -15,7 +20,10 @@ const Home: NextPage = () => {
     const prevRef = useRef<HTMLSpanElement>();
     const nextRef = useRef<HTMLSpanElement>();
     const [scrollY, setScrollY] = useState<number>(0);
-
+    const [openCalender,setOpenCalender] = useState(false);
+    const [searchInput,setSearchInput] = useState("");
+    const [startDate,setStartDate] = useState(new Date());
+    const [endDate,setEndDate] = useState(new Date());
     const router = useRouter();
     const routes: Array<Iprops> = [
         { name: 'Home', href: '/' },
@@ -25,6 +33,41 @@ const Home: NextPage = () => {
         { name: 'Login', href: '/auth/login' },
         { name: 'Signup', href: '/auth/signup' },
     ];
+
+    const expand = () => {
+        setOpenCalender(true);
+    };
+
+    const close = () => {
+        setOpenCalender(false);
+    };
+
+    const input = (e) => {
+        setSearchInput(e.target.value)
+    }
+
+    const search = () => {
+        router.push({
+            pathname:"/selection",
+            query: {
+                location: searchInput,
+                startDate:startDate.toISOString(),
+                endDate:endDate.toISOString(),
+            }
+        })
+    }
+
+    const handleSelect = (ranges) => {
+        setStartDate(ranges.selection.startDate);
+        setEndDate(ranges.selection.endDate);
+    }
+      
+
+    const selectionRange = {
+        startDate:startDate,
+        endDate:endDate,
+        key:'selection'
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -71,6 +114,7 @@ const Home: NextPage = () => {
     };
     const SearchTours = () => {
         return (
+            <div className="flex flex-col py-30">
             <div style={{ top: '45%' }} className='px-40 space-y-2 absolute'>
                 <h1 className='text-5xl filter drop-shadow font-extrabold'>
                     Avoid the Crowds
@@ -83,14 +127,29 @@ const Home: NextPage = () => {
                         className='col-span-2 w-full'
                         placeholder='Where are you Going ?'
                         inputType='primary'
+                        onChange={input}
+                        value={searchInput}
                     />
 
-                    <Input placeholder='Date Dropdown' inputType='primary' />
+                    <Input placeholder='Date Dropdown' inputType='primary' onChange={expand} />
                     <Input placeholder='9 Peoples' inputType='primary' />
-                    <button className='inline-block p-2 rounded-full text-white font-bold bg-pink-600'>
+                    <button className='inline-block p-2 rounded-full text-white font-bold bg-pink-600' onClick={search}>
                         Search
                     </button>
                 </div>
+            </div>
+            <div style={{ top: '85%', left: '24%' }} className='px-20 space-y-4 absolute z-40 mx-auto'>
+                   {openCalender && (
+                       <div>
+                           <DateRangePicker
+                            ranges={[selectionRange]}
+                            minDate={new Date()}
+                            rangeColors={["#FD5861"]}
+                            onChange = {handleSelect}
+                           />
+                       </div>
+                   )}
+            </div>
             </div>
         );
     };
