@@ -6,69 +6,12 @@ import { useRouter } from 'next/router';
 import Input from 'components/FormElements/Input';
 import NavButton from 'components/swiper/NavButton';
 import SwiperSection from 'components/swiper/SwiperSection';
+import Navbar from 'Layout/Navbar';
 
 const Home: NextPage = () => {
-    interface Iprops {
-        name: String;
-        href: String;
-    }
     const prevRef = useRef<HTMLSpanElement>();
     const nextRef = useRef<HTMLSpanElement>();
-    const [scrollY, setScrollY] = useState<number>(0);
 
-    const router = useRouter();
-    const routes: Array<Iprops> = [
-        { name: 'Home', href: '/' },
-        { name: 'Search', href: '/search' },
-        { name: 'Become a Host', href: '/become-a-host' },
-        { name: 'My Profile', href: '/myprofile' },
-        { name: 'Login', href: '/auth/login' },
-        { name: 'Signup', href: '/auth/signup' },
-    ];
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
-        handleScroll();
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    const Navbar: FC = () => {
-        return (
-            <div
-                className={`flex z-50 fixed top-0 right-0 left-0 px-4 py-1 justify-between items-center transition-all duration-600 ${
-                    scrollY > 90 ? 'bg-white border-b-2' : ''
-                }`}
-            >
-                <img
-                    alt='logo'
-                    className='h-12 w-12'
-                    src='/icons/logo-icon.png'
-                ></img>
-                <div className='flex items-center space-x-8'>
-                    {routes.map((el) => {
-                        const active = router.pathname == el.href;
-                        return (
-                            //@ts-ignore
-                            <Link key={el.href} href={el.href}>
-                                <a
-                                    className={`font-semibold ${
-                                        active ? 'text-white-500 ' : ''
-                                    } ${scrollY > 90 ? '' : 'text-white'}`}
-                                >
-                                    {el.name}
-                                </a>
-                            </Link>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    };
     const SearchTours = () => {
         return (
             <div style={{ top: '45%' }} className='px-40 space-y-2 absolute'>
@@ -127,7 +70,7 @@ const Home: NextPage = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar active={true} />
             <div
                 style={{
                     backgroundImage: `linear-gradient(
