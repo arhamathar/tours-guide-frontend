@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 
 interface Iprops {
     children: ReactNode;
-    className: string;
+    className?: string;
 }
 
 function Index({ children, className }: Iprops) {

@@ -4,7 +4,7 @@ interface IAuth {
     token: string | null;
     email: string | null;
     name: string | null;
-    login: () => void;
+    login: (name: string, email: string, token: string) => void;
     logout: () => void;
 }
 
