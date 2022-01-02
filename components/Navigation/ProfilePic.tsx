@@ -9,8 +9,7 @@ const ProfilePic = () => {
         <React.Fragment>
             <div
                 className='relative'
-                onMouseEnter={() => setShowPopover(true)}
-                onMouseLeave={() => setShowPopover(false)}
+                onClick={() => setShowPopover(!showPopover)}
             >
                 <button
                     type='button'

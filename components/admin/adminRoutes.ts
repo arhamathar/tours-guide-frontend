@@ -20,13 +20,13 @@ const adminRoutes = [
         ],
     },
     {
-        label: 'Setting',
+        label: 'Settings',
         path: '/admin/setting',
         access: ['admin'],
     },
     {
         label: 'Register',
-        path: '/admin/register/user',
+        path: '/auth/register/user',
         access: ['admin'],
     },
 ];
