@@ -1,5 +1,6 @@
-const adminRoutes = {
-    hotels: {
+const adminRoutes = [
+    {
+        label: 'Hotels',
         path: '/admin/hotels',
         access: ['admin', 'manager'],
         navbar: [
@@ -8,7 +9,8 @@ const adminRoutes = {
             { title: 'Back', path: '/admin/hotels' },
         ],
     },
-    bookings: {
+    {
+        label: 'Bookings',
         path: '/admin/bookings',
         access: ['admin', 'manager', 'traveller'],
         navbar: [
@@ -17,14 +19,16 @@ const adminRoutes = {
             { title: 'History', path: '/admin/bookings/history' },
         ],
     },
-    setting: {
+    {
+        label: 'Setting',
         path: '/admin/setting',
         access: ['admin'],
     },
-    register: {
+    {
+        label: 'Register',
         path: '/admin/register/user',
         access: ['admin'],
     },
-};
+];
 
 export default adminRoutes;
