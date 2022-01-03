@@ -15,9 +15,11 @@ const Sidebar = () => {
             return (
                 <Link key={route.label} href={route.path}>
                     <a
-                        className={`${
-                            activeClass ? 'bg-pink-500' : ''
-                        } flex p-4 justify-between md:bg-gray-100 md:hover:bg-pink-400 md:hover:text-white md:text-gray-700 text-md text-gray-100  w-full uppercase text-left`}
+                        className={`flex p-4 justify-between  hover:bg-pink-400 hover:text-white  text-md w-full uppercase text-left ${
+                            activeClass
+                                ? 'bg-pink-500 text-white'
+                                : 'text-gray-700'
+                        }`}
                     >
                         {route.label}
                     </a>

@@ -26,7 +26,7 @@ const Wrapper: React.FC = ({ children }) => {
 
     return (
         <AdminLayout>
-            <div className='bg-white m-auto md:w-11/12 xl:min-h-5/6 lg:w-10/12 w-full flex flex-col shadow-xl min-h-screen md:min-h-0  md:rounded'>
+            <div className='admin__wrapper  bg-white m-auto md:w-11/12 xl:min-h-5/6 lg:w-10/12 w-full flex flex-col shadow-xl min-h-screen md:min-h-0 md:rounded'>
                 <div>
                     <Header
                         sidebarHandler={() =>
@@ -34,16 +34,18 @@ const Wrapper: React.FC = ({ children }) => {
                         }
                     />
                 </div>
-                <div className='md:flex'>
+                <div className='md:flex overflow-hidden'>
                     <div
-                        className={`absolute w-full sm:w-8/12 max-w-xs z-2 md:static md:w-2/12 bg-gradient-to-r from-pink-500 to-pink-800 mt-16 md:mt-0 transform top-0 left-0 bottom-0 ${
-                            sideBar ? '' : '-translate-x-full'
-                        } transition-all`}
+                        className={`absolute w-full sm:w-8/12 max-w-xs z-5 md:static md:w-2/12 mt-16 md:mt-0 transform top-0 left-0 bottom-0 ${
+                            sideBar ? '' : '-translate-x-full '
+                        } transition-all bg-gray-100`}
                     >
                         {' '}
                         <Sidebar />
                     </div>
-                    <div className='w-10/12'>{children}</div>
+                    <div className='w-10/12 py-2 px-4 overflow-y-scroll'>
+                        {children}
+                    </div>
                 </div>
             </div>
         </AdminLayout>
