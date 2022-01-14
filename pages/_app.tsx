@@ -10,7 +10,8 @@ import 'nprogress/nprogress.css';
 import 'tailwindcss/tailwind.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Layout from 'components/Layout';
+// import Layout from 'components/Layout';
+import Layout from 'Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
     React.useEffect(() => {
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, []);
 
     return (
-        <>
+        <Layout>
             <Head>
                 <title>Tours Guide | Home</title>
                 <meta
@@ -35,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
             <ToastContainer theme={'colored'} />
             <Component {...pageProps} />
-        </>
+        </Layout>
     );
 }
 
