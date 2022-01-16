@@ -21,7 +21,7 @@ const adminRoutes = [
     },
     {
         label: 'Settings',
-        path: '/admin/setting',
+        path: '/admin/settings',
         access: ['admin'],
     },
     {

@@ -26,7 +26,7 @@ const Wrapper: React.FC = ({ children }) => {
 
     return (
         <AdminLayout>
-            <div className='admin__wrapper  bg-white m-auto md:w-11/12 xl:min-h-5/6 lg:w-10/12 w-full flex flex-col shadow-xl min-h-screen md:min-h-0 md:rounded'>
+            <div className='admin__wrapper  bg-white m-auto md:w-11/12 xl:min-h-5/6 lg:w-10/12 w-full flex flex-col shadow-xl md:rounded'>
                 <div>
                     <Header
                         sidebarHandler={() =>
@@ -43,7 +43,7 @@ const Wrapper: React.FC = ({ children }) => {
                         {' '}
                         <Sidebar />
                     </div>
-                    <div className='w-10/12 py-2 px-4 overflow-y-scroll'>
+                    <div className='w-full md:w-10/12 py-2 px-4 overflow-y-scroll'>
                         {children}
                     </div>
                 </div>
