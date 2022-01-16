@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Wrapper from 'Layout/Wrapper';
 import Input from 'components/FormElements/Input';
 import Image from 'next/image';
+
 import { BiUserCircle, BiPhoneCall } from 'react-icons/bi';
 import { FaRegAddressBook } from 'react-icons/fa';
+import FileUpload from 'components/FileUpload';
 
 const Settings = () => {
+    const [files, setFiles] = useState<File[]>([]);
+
     return (
         <Wrapper>
             <h3 className='text-gray-500 font-bold text-2xl'>Profile Update</h3>
@@ -21,7 +25,7 @@ const Settings = () => {
                     />
                 </div>
                 <div>
-                    <div className='flex flex-col md:flex-row justify-between'>
+                    <div className='flex flex-col md:flex-row justify-between my-2'>
                         <Input
                             label='First Name'
                             placeholder='John'
@@ -49,7 +53,7 @@ const Settings = () => {
                             }
                         />
                     </div>
-                    <div className='flex flex-col md:flex-row justify-between'>
+                    <div className='flex flex-col md:flex-row justify-between my-2'>
                         <Input
                             label='Mobile'
                             placeholder='0987654321'
@@ -76,7 +80,7 @@ const Settings = () => {
                             }
                         />
                     </div>
-                    <div className='flex flex-col md:flex-row justify-between'>
+                    <div className='flex flex-col md:flex-row justify-between my-2'>
                         <Input
                             label='Street'
                             placeholder='Okhla'
@@ -102,8 +106,22 @@ const Settings = () => {
                             }
                         />
                     </div>
-                    <div>
-                        <input type='file' />
+                    <div className='my-4 rounded-full'>
+                        {/* <FilePond
+                            files={files}
+                            //@ts-ignore
+                            onupdatefiles={setFiles}
+                            allowMultiple={false}
+                            // server='/api'
+                            acceptedFileTypes={['jpg', 'png', 'jpeg']}
+                            name='files'
+                            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                        /> */}
+                        <FileUpload
+                            label='Profile Pic'
+                            files={files}
+                            setFiles={setFiles}
+                        />
                     </div>
                 </div>
             </div>

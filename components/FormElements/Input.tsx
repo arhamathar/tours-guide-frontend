@@ -44,7 +44,7 @@ const Input: React.FC<Partial<IProps>> = ({
     switch (inputType) {
         case 'primary': {
             return (
-                <div className={`${className} my-2 mx-1`}>
+                <div className={`${className}  mx-1`}>
                     {label && (
                         <label className='font-medium text-gray-600 text-opacity-75 mb-1'>
                             {label}

@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Wrapper from 'Layout/Wrapper';
 import HotelCard from 'components/Cards/HotelCard';
 
