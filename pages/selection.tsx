@@ -1,13 +1,21 @@
 import React from 'react';
+import { useEffect,useState } from 'react';
 import Input from 'components/FormElements/Input';
 import useApi from 'hooks/useApi';
 import Card from 'components/Cards/HotelOrGuideCard'
 import Map from 'components/Map/GoogleMap'
+import axios from 'axios'
+import { useRouter } from 'next/router';
+import {format} from 'date-fns'
 const selection = () =>{
+    const router = useRouter();
+    const {location,startDate,endDate}=router.query;
     const [minPrice,setMinPrice] = React.useState(0);
     const [maxPrice,setMaxPrice] = React.useState(100000000);
-    const [location,setLocation] = React.useState("ALL");
+    const [locati,setLocation] = React.useState(location);
     const [type,setType] = React.useState("BOTH");
+    const [tourStartDate,setTourStartDate] = React.useState(startDate);
+    const [tourEndDate,setTourEndDate] = React.useState(endDate);
     const [filteredResult,setFilteredResult]=React.useState([
         {
             type:'Guide',
@@ -37,14 +45,34 @@ const selection = () =>{
             review: 3.77
         }
     ]);
-    const query = `?minPrice=${minPrice}&&maxPrice=${maxPrice}&&location=${location}&&type=${type}`;
+    
+ 
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${location}&key=AIzaSyCryqdJrYXn4RAZ6LU_kC-uYB2Tn2K00_M`;
+    const [suggestion,setSuggestion] = useState<Array<string>>([]);
+    useEffect(() => {
+    const init = async () => {
+        console.log(1);
+        try {
+            const {data} = await axios.get(url);
+            console.log(data);
+            setSuggestion(data);
+        }catch(err) {
+            console.log(err);
+        }
+    }
+    init();
+},[location])
+
+
+
+    const query = `?minPrice=${minPrice}&maxPrice=${maxPrice}&location=${location}&type=${type}`;
     const {sendRequest} = useApi({
-        url: "/getAllTours"+query,
+        url: "getAllTours"+query,
         method: 'GET'
     });
     React.useEffect(()=>{
       sendRequest();
-    },[minPrice,maxPrice,location])
+    },[minPrice,maxPrice])
 
 
     const onChangeminPrice = (
@@ -59,10 +87,23 @@ const selection = () =>{
         setMaxPrice(e.target.value);
     };
 
+    const onChangeStartDate = (
+        e:any
+    ) => {
+        setTourStartDate(e.target.value);
+    };
+
+    const onChangeEndDate = (
+        e:any
+    ) => {
+        setTourEndDate(e.target.value);
+    };
+
     const onChangeLocation = (
         e:any
     ) => {
         setLocation(e.target.value);
+        console.log(locati);
     };
 
     return (
@@ -86,9 +127,23 @@ const selection = () =>{
                       <Input 
                        name='location'
                        label='Desired Location'
-                       value={location}
+                       value={locati}
                        onChange={onChangeLocation}
                        type='Location'  
+                      />
+                      <Input 
+                       name='startDate'
+                       label='Start Date'
+                       value={tourStartDate}
+                       onChange={onChangeStartDate}
+                       type='startDate'  
+                      />
+                       <Input 
+                       name='endDate'
+                       label='End Date'
+                       value={tourEndDate}
+                       onChange={onChangeEndDate}
+                       type='endDate'  
                       />
                       <h1>Filter by guide and hotel</h1>
                    </div>
@@ -107,7 +162,7 @@ const selection = () =>{
                                 })
                             }
                         </div>                   
-                        <div className="flo">
+                        <div className="flex">
                              <Map />
                         </div>
                    </div>

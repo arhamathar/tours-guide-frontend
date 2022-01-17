@@ -1,3 +1,4 @@
+//@ts-nocheck
 import type { NextPage } from 'next';
 import { FC, useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
@@ -11,29 +12,48 @@ import Navbar from 'Layout/Navbar';
 const Home: NextPage = () => {
     const prevRef = useRef<HTMLSpanElement>();
     const nextRef = useRef<HTMLSpanElement>();
-
     const SearchTours = () => {
         return (
-            <div style={{ top: '45%' }} className='px-40 space-y-2 absolute'>
-                <h1 className='text-5xl filter drop-shadow font-extrabold'>
-                    Avoid the Crowds
-                </h1>
-                <h2 className='text-2xl filter drop-shadow font-bold'>
-                    Book private tours & activities with locals worldwide
-                </h2>
-                <div className='min-h-20 bg-white rounded-2xl p-10 grid grid-cols-5 gap-4'>
-                    <Input
-                        className='col-span-2 w-full'
-                        placeholder='Where are you Going ?'
-                        inputType='primary'
-                    />
+            <div className='flex flex-col py-30'>
+                <div
+                    style={{ top: '45%' }}
+                    className='px-40 space-y-2 absolute'
+                >
+                    <h1 className='text-5xl filter drop-shadow font-extrabold'>
+                        Avoid the Crowds
+                    </h1>
+                    <h2 className='text-2xl filter drop-shadow font-bold'>
+                        Book private tours & activities with locals worldwide
+                    </h2>
+                    <div className='min-h-20 bg-white rounded-2xl p-10 grid grid-cols-5 gap-4'>
+                        <Input
+                            className='col-span-2 w-full'
+                            placeholder='Where are you Going ?'
+                            inputType='primary'
+                        />
 
-                    <Input placeholder='Date Dropdown' inputType='primary' />
-                    <Input placeholder='9 Peoples' inputType='primary' />
-                    <button className='inline-block p-2 rounded-full text-white font-bold bg-pink-600'>
-                        Search
-                    </button>
+                        <Input
+                            placeholder='Date Dropdown'
+                            inputType='primary'
+                        />
+                        <Input placeholder='9 Peoples' inputType='primary' />
+                        <button className='inline-block p-2 rounded-full text-white font-bold bg-pink-600'>
+                            Search
+                        </button>
+                    </div>
                 </div>
+                {/* <div style={{ top: '85%', left: '24%' }} className='px-20 space-y-4 absolute z-40 mx-auto'>
+                   {openCalender && (
+                       <div>
+                           <DateRangePicker
+                            ranges={[selectionRange]}
+                            minDate={new Date()}
+                            rangeColors={["#FD5861"]}
+                            onChange = {handleSelect}
+                           />
+                       </div>
+                   )}
+            </div> */}
             </div>
         );
     };
