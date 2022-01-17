@@ -50,7 +50,7 @@ const Home: NextPage = () => {
         router.push({
             pathname:"/selection",
             query: {
-                location: searchInput,
+                searchedLocation: searchInput,
                 startDate:startDate.toISOString(),
                 endDate:endDate.toISOString(),
             }
