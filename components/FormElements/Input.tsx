@@ -1,5 +1,6 @@
 import React from 'react';
 import { AiOutlineSearch as SearchIcon } from 'react-icons/ai';
+import Select from 'react-select';
 
 interface IProps {
     label: string;
@@ -13,6 +14,11 @@ interface IProps {
     inputType: string;
     className: string;
 }
+
+const data = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+];
 
 const Input: React.FC<Partial<IProps>> = ({
     label,
@@ -43,6 +49,16 @@ const Input: React.FC<Partial<IProps>> = ({
                             placeholder={placeholder}
                         ></input>
                     </div>
+                </div>
+            );
+        }
+        case 'dropdown': {
+            return (
+                <div className='flex flex-col py-1'>
+                    <label className='font-medium text-gray-600 text-opacity-75 mb-1'>
+                        {label}
+                    </label>
+                    <Select options={data} />
                 </div>
             );
         }

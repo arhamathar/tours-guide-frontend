@@ -4,7 +4,7 @@ interface NavBarLinks {
     permission?: 'USER' | 'ADMIN' | 'GUIDE' | 'MANAGER';
 }
 
-export const NAV_BAR_LINKS: NavBarLinks[] = [
+export const NAV_BAR_LINKS: Array<NavBarLinks> = [
     {
         label: 'Home',
         href: '/',

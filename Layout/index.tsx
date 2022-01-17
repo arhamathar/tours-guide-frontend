@@ -6,7 +6,7 @@ interface Iprops {
     className: string;
 }
 
-function Index({ children, className }: Iprops) {
+function Index({ children, className }: Partial<Iprops>) {
     return (
         <>
             <Navbar active={false} />

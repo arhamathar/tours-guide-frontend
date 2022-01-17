@@ -1,59 +1,83 @@
 import Layout from '../../Layout/index';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Marker, InfoBox } from '@react-google-maps/api';
 //@ts-ignore
 import { AiOutlineHeart, AiTwotoneStar } from 'react-icons/ai';
 import { mapDarkmode } from 'helpers/constants';
+import { StandaloneSearchBox } from '@react-google-maps/api';
+import Input from 'components/FormElements/Input';
+
+interface coords {
+    lat: number;
+    lng: number;
+}
+
 export default function Index() {
-    const [coords, setCoords] = useState({
-        lat: -1.2884,
-        lng: 36.8233,
+    const [apiMap, setApiMap] = useState<string>(
+        'AIzaSyCryqdJrYXn4RAZ6LU_kC-uYB2Tn2K00_M',
+    );
+    const [center, setCenter] = useState<coords>({
+        lat: -3.745,
+        lng: -38.523,
     });
+    const autocomplete = useRef(null);
 
-    const [latLng, setLatLng] = useState({
-        lat: -1.2884,
-        lng: 36.8233,
-    });
-
+    const onMarkerDragEnd = (e: any) => {
+        const lat = e.latLng.lat();
+        const lng = e.latLng.lng();
+        setCenter({ lat, lng });
+    };
     const SearchMap = () => {
         const containerStyle = {
             width: '100%',
             height: '100%',
         };
-        const center = {
-            lat: -3.745,
-            lng: -38.523,
-        };
-        const onLoad = (infoBox: any) => {
-            console.log('infoBox: ', infoBox);
-        };
-        const options = { closeBoxURL: '', enableEventPropagation: true };
         return (
-            <LoadScript googleMapsApiKey='AIzaSyCryqdJrYXn4RAZ6LU_kC-uYB2Tn2K00_M'>
+            <LoadScript
+                libraries={[
+                    'drawing',
+                    'geometry',
+                    'localContext',
+                    'places',
+                    'visualization',
+                ]}
+                googleMapsApiKey={apiMap}
+            >
+                <StandaloneSearchBox
+                    //@ts-ignore
+                    onLoad={(ref) => (autocomplete.current = ref)}
+                    onPlacesChanged={() => {
+                        //@ts-ignore
+                        const { lat, lng } =
+                            //@ts-ignore
+                            autocomplete.current.getPlaces()[0].geometry
+                                .location;
+                        setCenter({
+                            lat: lat(),
+                            lng: lng(),
+                        });
+                    }}
+                >
+                    <Input />
+                </StandaloneSearchBox>
                 <GoogleMap
+                    onClick={(e: any) => {
+                        setCenter({
+                            lat: e.latLng?.lat(),
+                            lng: e.latLng?.lng(),
+                        });
+                        console.log(e.latLng?.lat(), e.latLng?.lng());
+                    }}
                     mapContainerStyle={containerStyle}
                     center={center}
-                    zoom={10}
+                    zoom={15}
                 >
-                    {/* Child components, such as markers, info windows, etc. */}
-                    <InfoBox
-                        onLoad={onLoad}
-                        options={options}
+                    <Marker
                         position={center}
-                    >
-                        <div
-                            style={{
-                                backgroundColor: 'yellow',
-                                opacity: 0.75,
-                                padding: 12,
-                            }}
-                        >
-                            <div style={{ fontSize: 16, color: '#08233B' }}>
-                                Hello, World!
-                            </div>
-                        </div>
-                    </InfoBox>
+                        onDragEnd={(e) => onMarkerDragEnd(e)}
+                        draggable={true}
+                    ></Marker>
                 </GoogleMap>
             </LoadScript>
         );
@@ -118,7 +142,7 @@ export default function Index() {
                     );
                 })}
             </div>
-            <div>
+            <div className='space-y-2'>
                 <SearchMap />
             </div>
         </Layout>
