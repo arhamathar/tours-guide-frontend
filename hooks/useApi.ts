@@ -42,8 +42,8 @@ const useApi = ({
             toast.success(data.message || 'success');
             return data;
         } catch (e: any) {
-            console.log(e.response.data);
-            toast.error(e.response.data.message || 'Something went wrong');
+            // console.log(e.response.data);
+           // toast.error(e.response.data.message || 'Something went wrong');
             setState({ loading: false, response: null, errorResponse: e });
             nProgress.done();
         }
