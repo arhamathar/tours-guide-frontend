@@ -1,18 +1,26 @@
 import React from 'react';
 import { AiOutlineSearch as SearchIcon } from 'react-icons/ai';
+import Select from 'react-select';
 
 interface IProps {
     label: string;
     name: string;
-    value: string | number;
+    value: string | number | any;
     type?: string;
     placeholder?: string;
     required?: boolean;
     icon?: React.ReactNode;
     onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    onFocus: React.ChangeEventHandler<HTMLInputElement> | undefined;
+    onBlur: React.ChangeEventHandler<HTMLInputElement> | undefined;
     inputType: string;
     className: string;
 }
+
+const data = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+];
 
 const Input: React.FC<Partial<IProps>> = ({
     label,
@@ -20,6 +28,8 @@ const Input: React.FC<Partial<IProps>> = ({
     name,
     value,
     onChange,
+    onFocus,
+    onBlur,
     type = 'text',
     required = false,
     inputType,
@@ -38,11 +48,23 @@ const Input: React.FC<Partial<IProps>> = ({
                         <input
                             className='text-lg border-2 w-full border-gray-400 pl-12 pr-4 py-3 rounded font-semibold text-gray-700 outline-none hover:shadow-md focus:border focus:border-pink-400'
                             onChange={onChange}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
                             type={type}
                             value={value}
                             placeholder={placeholder}
                         ></input>
                     </div>
+                </div>
+            );
+        }
+        case 'dropdown': {
+            return (
+                <div className='flex flex-col py-1'>
+                    <label className='font-medium text-gray-600 text-opacity-75 mb-1'>
+                        {label}
+                    </label>
+                    <Select options={data} />
                 </div>
             );
         }
