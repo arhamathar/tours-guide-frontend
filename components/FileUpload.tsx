@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 
 // Import the Image EXIF Orientation and Image Preview plugins
@@ -16,6 +16,7 @@ interface IProps {
     setFiles: React.Dispatch<React.SetStateAction<File[]>>;
     label: string;
     className?: string;
+    multi?: boolean;
 }
 
 const FileUpload: React.FC<IProps> = ({
@@ -23,34 +24,32 @@ const FileUpload: React.FC<IProps> = ({
     className,
     files,
     setFiles,
+    multi = false,
 }) => {
     // const [filepondFiles, setFilepondFiles] = useState([]);
 
     return (
         <div className={`${className}`}>
-            <label className='text-base font-medium text-gray-400 mb-2'>
+            <label className='text-base font-medium text-gray-600 text-opacity-75 mb-2'>
                 {label}
             </label>
             <FilePond
                 files={files}
                 //@ts-ignore
                 onupdatefiles={setFiles}
-                allowMultiple={false}
+                allowMultiple={multi}
                 maxFiles={1}
                 // server={{
-                //   url: `${process.env.NEXT_PUBLIC_SERVER}/api/v2/upload`,
-                //   process: {
-                //     headers: {
-                //       authorization: Cookies.get('token'),
+                //     url: `${process.env.NEXT_PUBLIC_SERVER}/api/v2/upload`,
+                //     process: {
+                //         onload: (response) => {
+                //             const res = JSON.parse(response);
+                //             setFiles([...files, { url: res.url, id: res.id }]);
+                //         },
+                //         onerror: (err) => {
+                //             console.log(err);
+                //         },
                 //     },
-                //     onload: (response) => {
-                //       const res = JSON.parse(response);
-                //       setFiles([...files, { url: res.url, id: res.id }]);
-                //     },
-                //     onerror: (err) => {
-                //       console.log(err);
-                //     },
-                //   },
                 // }}
                 name='file'
                 labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'

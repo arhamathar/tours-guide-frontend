@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import Dropzone from 'react-dropzone';
 import Wrapper from 'Layout/Wrapper';
 import Input from 'components/FormElements/Input';
 import Image from 'next/image';
 
 import { BiUserCircle, BiPhoneCall } from 'react-icons/bi';
-import { FaRegAddressBook } from 'react-icons/fa';
+import { FaRegAddressBook, FaCloudUploadAlt } from 'react-icons/fa';
+import { AiOutlineCamera } from 'react-icons/ai';
 import FileUpload from 'components/FileUpload';
+import useData from 'pages/admin/settings/data';
 
 const Settings = () => {
-    const [files, setFiles] = useState<File[]>([]);
+    const { state, handler } = useData();
+    const { attachedFiles } = state;
+    const { handleAcceptedFiles } = handler;
 
     return (
         <Wrapper>
@@ -106,23 +111,48 @@ const Settings = () => {
                             }
                         />
                     </div>
-                    <div className='my-4 rounded-full'>
-                        {/* <FilePond
-                            files={files}
-                            //@ts-ignore
-                            onupdatefiles={setFiles}
-                            allowMultiple={false}
-                            // server='/api'
-                            acceptedFileTypes={['jpg', 'png', 'jpeg']}
-                            name='files'
-                            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                        /> */}
-                        <FileUpload
-                            label='Profile Pic'
-                            files={files}
-                            setFiles={setFiles}
-                        />
-                    </div>
+                    {/* <div className='my-4 rounded-full'> */}
+                    <Dropzone
+                        onDrop={(acceptedFiles) => {
+                            console.log(acceptedFiles);
+                            handleAcceptedFiles(acceptedFiles);
+                        }}
+                    >
+                        {({ getRootProps, getInputProps }) => (
+                            <section className='text-center py-4 outline-0 bg-gray-100 bg-opacity-75 border border-gray-300 border-dashed cursor-pointer'>
+                                <div
+                                    className='dz-message needsclick'
+                                    {...getRootProps()}
+                                >
+                                    <input
+                                        disabled={attachedFiles.length > 0}
+                                        {...getInputProps()}
+                                        accept='.jpg,.png,.jpeg'
+                                        multiple={false}
+                                    />
+                                    <div className='dz-message needsclick'>
+                                        <div className='mb-2 flex justify-center'>
+                                            <FaCloudUploadAlt
+                                                size={48}
+                                                className='text-gray-600 mr-2'
+                                            />
+                                            <AiOutlineCamera
+                                                size={48}
+                                                className='text-gray-600'
+                                            />
+                                        </div>
+                                        <h4 className='text-gray-600 text-lg'>
+                                            {console.log(attachedFiles.length)}
+                                            {attachedFiles.length > 0
+                                                ? 'One file allowed'
+                                                : 'Drop files here or click to upload profile pic'}
+                                        </h4>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+                    </Dropzone>
+                    {/* </div> */}
                 </div>
             </div>
         </Wrapper>
