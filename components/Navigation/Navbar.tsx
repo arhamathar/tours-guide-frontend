@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NAV_BAR_LINKS } from 'helpers/constants';
+import { NAV_BAR_LINKS } from 'utils/constants';
 
 import ProfilePic from 'components/Navigation/ProfilePic';
 

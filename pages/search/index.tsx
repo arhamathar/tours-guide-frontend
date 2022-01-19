@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Marker, InfoBox } from '@react-google-maps/api';
 //@ts-ignore
 import { AiOutlineHeart, AiTwotoneStar } from 'react-icons/ai';
-import { mapDarkmode } from 'helpers/constants';
+import { mapDarkmode } from 'utils/constants';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 import Input from 'components/FormElements/Input';
 
@@ -88,7 +88,7 @@ export default function Index() {
             <div className='overflow-y-auto'>
                 {[0, 0, 1, 1, 1].map((el) => {
                     return (
-                        <div className='py-4 border-t border-b'>
+                        <div className='py-4 border-t border-b' key={el}>
                             <div className='grid grid-cols-5 space-x-4'>
                                 <img
                                     src='/images/sample2.jpg'
