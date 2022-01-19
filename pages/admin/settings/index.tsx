@@ -142,7 +142,6 @@ const Settings = () => {
                                             />
                                         </div>
                                         <h4 className='text-gray-600 text-lg'>
-                                            {console.log(attachedFiles.length)}
                                             {attachedFiles.length > 0
                                                 ? 'One file allowed'
                                                 : 'Drop files here or click to upload profile pic'}
