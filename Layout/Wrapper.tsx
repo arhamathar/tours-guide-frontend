@@ -34,7 +34,7 @@ const Wrapper: React.FC = ({ children }) => {
                         }
                     />
                 </div>
-                <div className='md:flex overflow-hidden'>
+                <div className='md:flex overflow-y-auto md:overflow-hidden'>
                     <div
                         className={`absolute w-full sm:w-8/12 max-w-xs z-5 md:static md:w-2/12 mt-16 md:mt-0 transform top-0 left-0 bottom-0 ${
                             sideBar ? '' : '-translate-x-full '

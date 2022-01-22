@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { BiUserCircle, BiPhoneCall } from 'react-icons/bi';
 import { FaRegAddressBook, FaCloudUploadAlt } from 'react-icons/fa';
 import { AiOutlineCamera } from 'react-icons/ai';
-import FileUpload from 'components/FileUpload';
 import useData from 'pages/admin/settings/data';
 
 const Settings = () => {
@@ -114,7 +113,6 @@ const Settings = () => {
                     {/* <div className='my-4 rounded-full'> */}
                     <Dropzone
                         onDrop={(acceptedFiles) => {
-                            console.log(acceptedFiles);
                             handleAcceptedFiles(acceptedFiles);
                         }}
                     >

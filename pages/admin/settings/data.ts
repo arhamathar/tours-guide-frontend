@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { formatBytes } from 'utils/helpers';
+import { formatBytes } from 'helpers';
 
 const useData = () => {
     const [attachedFiles, setAttachedFiles] = useState<File[]>([]);

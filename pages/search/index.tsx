@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Marker, InfoBox } from '@react-google-maps/api';
 //@ts-ignore
 import { AiOutlineHeart, AiTwotoneStar } from 'react-icons/ai';
-import { mapDarkmode } from 'utils/constants';
+import { mapDarkmode } from 'helpers/constants';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 import Input from 'components/FormElements/Input';
 

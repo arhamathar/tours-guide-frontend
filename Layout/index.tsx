@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { useRouter } from 'next/router';
 import Navbar from './Navbar';
 
 interface Iprops {
@@ -7,10 +8,12 @@ interface Iprops {
 }
 
 function Index({ children, className }: Partial<Iprops>) {
+    const { pathname } = useRouter();
+
     return (
         <>
-            <Navbar active={false} />
-            <div className={`${className} mt-14`}>{children}</div>
+            {!pathname.includes('admin') && <Navbar active={true} />}
+            <div className={`${className}`}>{children}</div>
         </>
     );
 }
