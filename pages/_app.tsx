@@ -10,8 +10,12 @@ import 'nprogress/nprogress.css';
 import 'tailwindcss/tailwind.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Provider } from 'react-redux';
+import configureStore from 'Redux/store/configureStore';
 // import Layout from 'components/Layout';
 import Layout from 'Layout';
+
+const store = configureStore();
 
 function MyApp({ Component, pageProps }: AppProps) {
     React.useEffect(() => {
@@ -21,22 +25,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, []);
 
     return (
-        <Layout>
-            <Head>
-                <title>Tours Guide | Home</title>
-                <meta
-                    name='description'
-                    content='Tours Guide - An app where you can plan your tours finding best deals on guides & hotels. '
-                />
-                <meta
-                    name='viewport'
-                    content='initial-scale=1.0, width=device-width'
-                />
-                <link rel='icon' href='/favicon.ico' />
-            </Head>
-            <ToastContainer theme={'colored'} />
-            <Component {...pageProps} />
-        </Layout>
+        <Provider store={store}>
+            <Layout>
+                <Head>
+                    <title>Tours Guide | Home</title>
+                    <meta
+                        name='description'
+                        content='Tours Guide - An app where you can plan your tours finding best deals on guides & hotels. '
+                    />
+                    <meta
+                        name='viewport'
+                        content='initial-scale=1.0, width=device-width'
+                    />
+                    <link rel='icon' href='/favicon.ico' />
+                </Head>
+                <ToastContainer theme={'colored'} />
+                <Component {...pageProps} />
+            </Layout>
+        </Provider>
     );
 }
 
