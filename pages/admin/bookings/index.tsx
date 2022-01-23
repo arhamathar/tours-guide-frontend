@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import useApi from 'hooks/useApi';
 import Wrapper from 'Layout/Wrapper';
+import adminRoutes from 'components/admin/adminRoutes';
+import AdminNavbar from 'components/admin/AdminNavbar';
 
 const Bookings: React.FC = () => {
     const [bookings, setBookings] = useState<[]>([]);
 
+    const bookingsRoutes = adminRoutes.filter(
+        (route) => route.label === 'Bookings',
+    );
+
     const {} = useApi({
-        url: `/auth/login`,
+        url: `/hotel/`,
         method: 'GET',
     });
 
     return (
         <Wrapper>
-            <h3 className='text-gray-500 font-bold text-2xl'>All Bookings</h3>
+            <AdminNavbar navRoutes={bookingsRoutes[0].navbar} />
+            <h3 className='text-gray-500 font-bold text-2xl my-2'>
+                All Bookings
+            </h3>
             <div className='flex flex-col shadow-lg p-4'>
                 <div className='flex justify-between mb-4'>
                     <h4 className='text-2xl font-semibold text-gray-700'>

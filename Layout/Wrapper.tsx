@@ -43,7 +43,7 @@ const Wrapper: React.FC = ({ children }) => {
                         {' '}
                         <Sidebar />
                     </div>
-                    <div className='w-full md:w-10/12 py-2 px-4 overflow-y-scroll'>
+                    <div className='w-full md:w-10/12 py-1 px-4 overflow-y-scroll'>
                         {children}
                     </div>
                 </div>

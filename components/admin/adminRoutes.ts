@@ -14,7 +14,7 @@ const adminRoutes = [
         path: '/admin/bookings',
         access: ['admin', 'manager', 'traveller'],
         navbar: [
-            { title: 'All', path: '/admin/bookings/all' },
+            { title: 'All', path: '/admin/bookings' },
             { title: 'Future', path: '/admin/bookings/future' },
             { title: 'History', path: '/admin/bookings/history' },
         ],
