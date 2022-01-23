@@ -2,19 +2,26 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 interface IProps {
-    navRoutes: { title: string; path: string }[] | undefined;
+    filter?: boolean;
+    navRoutes?: { title: string; path: string }[] | undefined;
 }
 
 const AdminNavbar: React.FC<IProps> = ({ navRoutes }) => {
     const { pathname } = useRouter();
 
-    // const isActive = exact ? pathname === href : pathname.startsWith(href);
-
     const renderNavItem = () => {
         return navRoutes?.map((navItem) => {
+            const isActive = pathname === navItem.path ? true : false;
+
             return (
                 <Link href={navItem.path} key={navItem.path}>
-                    <a className='block bg-gray-200 min-w-max mr-2 py-2 mb-1 px-5 rounded-full text-gray-700 text-sm font-normal'>
+                    <a
+                        className={`block ${
+                            isActive
+                                ? 'bg-pink-400 text-white'
+                                : 'bg-gray-200 text-gray-700'
+                        }  min-w-max mr-2 py-2 mb-1 px-5 rounded-full text-sm font-normal`}
+                    >
                         {navItem.title}
                     </a>
                 </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useApi from 'hooks/useApi';
 import Wrapper from 'Layout/Wrapper';
 import adminRoutes from 'components/admin/adminRoutes';
@@ -6,22 +6,65 @@ import AdminNavbar from 'components/admin/AdminNavbar';
 
 const Bookings: React.FC = () => {
     const [bookings, setBookings] = useState<[]>([]);
+    const [filter, setFilter] = useState<string>('ALL');
+    const [url, setUrl] = useState<string>('/hotel/getAllBooking');
 
     const bookingsRoutes = adminRoutes.filter(
         (route) => route.label === 'Bookings',
     );
 
-    const {} = useApi({
-        url: `/hotel/`,
+    const { sendRequest } = useApi({
+        url,
         method: 'GET',
     });
 
+    useEffect(() => {
+        if (filter === 'ALL') setUrl('/hotel/getAllBooking');
+        else if (filter === 'PAST') setUrl('/hotel/getPastBooking');
+        else if (filter === 'FUTURE') setUrl('hotel/getFutureBooking');
+        else setUrl('/hotel/getAllBooking');
+    }, [filter]);
+
+    const getBookings = async () => {
+        try {
+            const data = await sendRequest();
+
+            console.log(data);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    useEffect(() => {
+        getBookings();
+    }, [url, filter]);
+
+    const filterOption = ['All', 'Past', 'Future'];
+
     return (
         <Wrapper>
-            <AdminNavbar navRoutes={bookingsRoutes[0].navbar} />
-            <h3 className='text-gray-500 font-bold text-2xl my-2'>
+            <div className='bg-white z-10 sticky top-0 right-0 left-0 p-1 flex items-center justify-start border-b border-gray-200 overflow-x-auto overflow-y-auto scrollbar-hide'>
+                {filterOption.map((option) => {
+                    const isActive = option === filter ? true : false;
+                    return (
+                        <button
+                            key={option}
+                            name={option}
+                            className={`block ${
+                                isActive
+                                    ? 'bg-pink-400 text-white'
+                                    : 'bg-gray-200 text-gray-700'
+                            }  min-w-max mr-2 py-2 mb-1 px-5 rounded-full text-sm font-normal`}
+                            onClick={(e) => setFilter(option)}
+                        >
+                            {option}
+                        </button>
+                    );
+                })}
+            </div>
+            {/* <h3 className='text-gray-500 font-bold text-2xl my-2'>
                 All Bookings
-            </h3>
+            </h3> */}
             <div className='flex flex-col shadow-lg p-4'>
                 <div className='flex justify-between mb-4'>
                     <h4 className='text-2xl font-semibold text-gray-700'>
