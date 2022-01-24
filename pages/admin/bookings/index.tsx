@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import useApi from 'hooks/useApi';
 import Wrapper from 'Layout/Wrapper';
 import adminRoutes from 'components/admin/adminRoutes';
 import AdminNavbar from 'components/admin/AdminNavbar';
+import axios from 'axios';
 
 const Bookings: React.FC = () => {
     const [bookings, setBookings] = useState<[]>([]);
@@ -13,31 +13,43 @@ const Bookings: React.FC = () => {
         (route) => route.label === 'Bookings',
     );
 
-    const { sendRequest } = useApi({
-        url,
-        method: 'GET',
-    });
-
     useEffect(() => {
-        if (filter === 'ALL') setUrl('/hotel/getAllBooking');
-        else if (filter === 'PAST') setUrl('/hotel/getPastBooking');
-        else if (filter === 'FUTURE') setUrl('hotel/getFutureBooking');
-        else setUrl('/hotel/getAllBooking');
+        if (filter === 'All') {
+            setUrl('/hotel/getAllBooking');
+        } else if (filter === 'Past') {
+            setUrl('/hotel/getPastBooking');
+        } else if (filter === 'Future') {
+            setUrl('hotel/getFutureBooking');
+        } else {
+            setUrl('/hotel/getAllBooking');
+        }
     }, [filter]);
 
-    const getBookings = async () => {
+    const getBookings = React.useCallback(async () => {
         try {
-            const data = await sendRequest();
+            const token =
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWNmNzFlYWI2ZDc5NTM0MzQwZDgzMCIsImlhdCI6MTY0Mjk1MzA3MywiZXhwIjoxNjQzMDM5NDczfQ.YZQ2o6WA1D5iLnnIXmD9J2kI1Us9rYbUxsrXkQojqqU';
+            const { data } = await axios.get(
+                process.env.NEXT_PUBLIC_BACKEND_URL_DEV + url,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + token,
+                    },
+                },
+            );
 
+            setBookings(data.bookings);
             console.log(data);
-        } catch (e) {
+        } catch (e: any) {
             console.log(e);
+            console.log(e.response?.data.message);
         }
-    };
+    }, [url]);
 
     useEffect(() => {
         getBookings();
-    }, [url, filter]);
+    }, [url, filter, getBookings]);
 
     const filterOption = ['All', 'Past', 'Future'];
 

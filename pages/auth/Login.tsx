@@ -36,9 +36,12 @@ const Login = () => {
     const onSubmitHandler = async () => {
         try {
             const response = await sendRequest();
-            if (response) {
+            if (response && response.user.role === 'Traveller') {
                 router.push('/');
+            } else {
+                router.push('/admin');
             }
+            console.log(response);
         } catch (e) {}
     };
 
