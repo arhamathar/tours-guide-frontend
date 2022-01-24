@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'styles/global.css';
 import 'nprogress/nprogress.css';
 import 'tailwindcss/tailwind.css';
+import 'filepond/dist/filepond.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Provider } from 'react-redux';

@@ -39,8 +39,10 @@ const Register = () => {
     const onSubmitHandler = async () => {
         try {
             const response = await sendRequest();
-            if (response) {
+            if (response && response.user.role === 'Traveller') {
                 router.push('/');
+            } else {
+                router.push('/admin');
             }
         } catch (e) {}
     };

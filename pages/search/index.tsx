@@ -88,7 +88,7 @@ export default function Index() {
             <div className='overflow-y-auto'>
                 {[0, 0, 1, 1, 1].map((el) => {
                     return (
-                        <div className='py-4 border-t border-b'>
+                        <div className='py-4 border-t border-b' key={el}>
                             <div className='grid grid-cols-5 space-x-4'>
                                 <img
                                     src='/images/sample2.jpg'
