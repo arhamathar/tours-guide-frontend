@@ -1,14 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
 import Button from 'components/FormElements/Button';
 import useApi from 'hooks/useApi';
+import { LOGIN_USER } from 'Redux/actionTypes/user';
 
 const Login = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const [loginUser, setLoginUser] = React.useState({
         email: '',
@@ -41,6 +44,8 @@ const Login = () => {
             } else {
                 router.push('/admin');
             }
+            const user = { ...response.user, token: response.token };
+            dispatch({ type: LOGIN_USER, payload: user });
             console.log(response);
         } catch (e) {}
     };

@@ -2,15 +2,16 @@
 import {
     LOADING_START,
     LOADING_END,
-    INCREMENT_REQUEST,
     INCREMENT_RESPONSE,
-    DECREMENT_REQUEST,
     DECREMENT_RESPONSE,
+    LOGIN_USER,
+    LOGOUT_USER,
 } from 'Redux/actionTypes/user';
 
 const initialState = {
     value: 0,
     loading: false,
+    user: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -36,6 +37,16 @@ const reducer = (state = initialState, action) => {
         case DECREMENT_RESPONSE: {
             const newState = { ...state };
             newState.value -= action.response.value;
+            return newState;
+        }
+        case LOGIN_USER: {
+            const newState = { ...state };
+            newState.user = action.payload;
+            console.log(state, actions);
+        }
+        case LOGOUT_USER: {
+            const newState = { ...state };
+            newState.user = null;
             return newState;
         }
         default: {

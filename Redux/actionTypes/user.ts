@@ -5,6 +5,8 @@ export const INCREMENT_REQUEST = 'INCREMENT_REQUEST';
 export const DECREMENT_REQUEST = 'DECREMENT_REQUEST';
 export const LOADING_START = 'LOADING_START';
 export const LOADING_END = 'LOADING_END';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGIN_USER';
 
 export const incrementRequest = (data) => {
     return {
@@ -43,5 +45,18 @@ export const decrementResponse = (response) => {
     return {
         type: DECREMENT_RESPONSE,
         response,
+    };
+};
+
+export const loginUser = (payload) => {
+    return {
+        type: LOGIN_USER,
+        payload,
+    };
+};
+
+export const logoutUser = () => {
+    return {
+        type: LOGOUT_USER,
     };
 };
