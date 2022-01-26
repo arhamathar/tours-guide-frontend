@@ -8,7 +8,20 @@ import {
     LOGOUT_USER,
 } from 'Redux/actionTypes/user';
 
-const initialState = {
+interface IUserInfo {
+    name: string;
+    email: string;
+    token: string;
+    role: string;
+}
+
+interface IInitialStateType {
+    user: IUserInfo;
+    value: number;
+    loading: boolean;
+}
+
+const initialState: IInitialStateType = {
     value: 0,
     loading: false,
     user: null,
@@ -42,7 +55,7 @@ const reducer = (state = initialState, action) => {
         case LOGIN_USER: {
             const newState = { ...state };
             newState.user = action.payload;
-            console.log(state, actions);
+            return newState;
         }
         case LOGOUT_USER: {
             const newState = { ...state };

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Wrapper from 'Layout/Wrapper';
-import adminRoutes from 'components/admin/adminRoutes';
-import AdminNavbar from 'components/admin/AdminNavbar';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+
+import Wrapper from 'Layout/Wrapper';
+import { AppState } from 'Redux/reducers/rootReducer';
+import adminRoutes from 'components/admin/adminRoutes';
 
 const Bookings: React.FC = () => {
     const [bookings, setBookings] = useState<[]>([]);
@@ -12,6 +14,9 @@ const Bookings: React.FC = () => {
     const bookingsRoutes = adminRoutes.filter(
         (route) => route.label === 'Bookings',
     );
+
+    const { user } = useSelector((state: AppState) => state?.user);
+    console.log({ user });
 
     useEffect(() => {
         if (filter === 'All') {
@@ -27,14 +32,12 @@ const Bookings: React.FC = () => {
 
     const getBookings = React.useCallback(async () => {
         try {
-            const token =
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWNmNzFlYWI2ZDc5NTM0MzQwZDgzMCIsImlhdCI6MTY0Mjk1MzA3MywiZXhwIjoxNjQzMDM5NDczfQ.YZQ2o6WA1D5iLnnIXmD9J2kI1Us9rYbUxsrXkQojqqU';
             const { data } = await axios.get(
                 process.env.NEXT_PUBLIC_BACKEND_URL_DEV + url,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + token,
+                        Authorization: 'Bearer ' + user.token,
                     },
                 },
             );
