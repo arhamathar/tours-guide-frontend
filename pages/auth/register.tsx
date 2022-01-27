@@ -41,7 +41,7 @@ const Register = () => {
             const response = await sendRequest();
             if (response && response.user.role === 'Traveller') {
                 router.push('/');
-            } else {
+            } else if (response) {
                 router.push('/admin');
             }
         } catch (e) {}

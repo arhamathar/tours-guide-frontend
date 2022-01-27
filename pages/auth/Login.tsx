@@ -41,7 +41,7 @@ const Login = () => {
             const response = await sendRequest();
             if (response && response.user.role === 'Traveller') {
                 router.push('/');
-            } else {
+            } else if (response) {
                 router.push('/admin');
             }
             const user = { ...response.user, token: response.token };
