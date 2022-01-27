@@ -8,10 +8,36 @@ import Input from 'components/FormElements/Input';
 import NavButton from 'components/swiper/NavButton';
 import SwiperSection from 'components/swiper/SwiperSection';
 import Navbar from 'Layout/Navbar';
+import { AiOutlineSearch as SearchIcon } from 'react-icons/ai';
+import { FaCalendarAlt } from 'react-icons/fa';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import { DateRangePicker } from 'react-date-range';
+import Modal from 'Layout/modal';
+import {format} from 'date-fns';
 
 const Home: NextPage = () => {
     const prevRef = useRef<HTMLSpanElement>();
     const nextRef = useRef<HTMLSpanElement>();
+
+    const [calenderFocus, setCalenderFocus] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
+    const handleSelect = (ranges) => {
+        setStartDate(ranges.selection.startDate);
+        setEndDate(ranges.selection.endDate);
+    };
+
+    const selectionRange = {
+        startDate: startDate,
+        endDate: endDate,
+        key: 'selection',
+    };
+
+    const resetInput = () => {
+        setCalenderFocus(false);
+    };
     const SearchTours = () => {
         return (
             <div className='flex flex-col py-30'>
@@ -26,18 +52,39 @@ const Home: NextPage = () => {
                         Book private tours & activities with locals worldwide
                     </h2>
                     <div className='min-h-20 bg-white rounded-2xl p-10 grid grid-cols-5 gap-4'>
-                        <Input
-                            className='col-span-2 w-full'
-                            placeholder='Where are you Going ?'
-                            inputType='primary'
-                        />
+                        
+                        <div className='border-2 col-span-2 py-3 border-gray-400 rounded-lg flex space-x-4 px-2 items-center'>
+                            <SearchIcon className='text-3xl text-gray-400 ' />
+                            <input
+                                type='text'
+                                placeholder='Where are you Going?'
+                                className=' text-lg bg-transparent outline-none text-gray-400'
+                            />
+                        </div>
 
-                        <Input
-                            placeholder='Date Dropdown'
-                            inputType='primary'
-                        />
-                        <Input placeholder='9 Peoples' inputType='primary' />
-                        <button className='inline-block p-2 rounded-full text-white font-bold bg-pink-600'>
+                        
+                        <div onClick={() => setCalenderFocus(true)} className='border-2 border-gray-400 rounded-lg grid grid-cols-2 justify-between px-2 items-center'>
+                            <SearchIcon className='text-3xl text-gray-400 flex-grow' />
+                            <input
+                                disabled
+                                
+                                value={`${format(new Date(startDate.toISOString()), "dd MMMM yy")} - ${format(new Date(endDate.toISOString()), "dd MMMM yy")}`}
+                                // onChange={(e) => setSearchInput(e.target.value)}
+                                type='text'
+                                placeholder='Date Dropdown'
+                                className='-ml-12 text-lg bg-transparent outline-none text-gray-400'
+                            />
+                        </div>
+                        <div className='border-2 border-gray-400 rounded-lg grid grid-cols-2 justify-between px-2 items-center'>
+                            <SearchIcon className='text-3xl text-gray-400 flex-grow' />
+                            <input
+                                type='text'
+                                placeholder='Peoples'
+                                className='-ml-12 text-lg bg-transparent outline-none text-gray-400'
+                            />
+                        </div>
+
+                        <button className='inline-block p-2 hover:scale-105 transform transition duration-150 ease-out rounded-full text-white font-bold bg-pink-600'>
                             Search
                         </button>
                     </div>
@@ -60,7 +107,7 @@ const Home: NextPage = () => {
 
     const DestinationCard = () => {
         return (
-            <div className='w-full rounded-2xl shadow-xl hover:shadow-2xl cursor-pointer'>
+            <div className='w-full -z-1 rounded-2xl shadow-xl hover:shadow-2xl cursor-pointer'>
                 <img
                     className='w-full h-48 object-cover rounded-t-2xl'
                     src='/images/sample1.jpg'
@@ -90,6 +137,21 @@ const Home: NextPage = () => {
 
     return (
         <>
+            {calenderFocus && (
+                <Modal title='Select Date' onClose={resetInput}>
+                    {/* {searchInput && ( */}
+                    <div className='flex flex-col mx-auto mt-4 w-full sm:w-auto h-80'>
+                        <DateRangePicker
+                            ranges={[selectionRange]}
+                            minDate={new Date()}
+                            rangeColors={['#fd5b61']}
+                            onChange={handleSelect}
+                            className='text-gray-400'
+                        />
+                    </div>
+                    {/* // )} */}
+                </Modal>
+            )}
             <Navbar active={true} />
             <div
                 style={{
