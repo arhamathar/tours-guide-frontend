@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 import Wrapper from 'Layout/Wrapper';
+import Spinner from 'components/Spinner';
 import { AppState } from 'Redux/reducers/rootReducer';
 import adminRoutes from 'components/admin/adminRoutes';
 
@@ -20,6 +21,7 @@ const Bookings: React.FC = () => {
     const [bookings, setBookings] = useState<IBookings[] | null>(null);
     const [filter, setFilter] = useState<string>('ALL');
     const [url, setUrl] = useState<string>('/hotel/getAllBooking');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const bookingsRoutes = adminRoutes.filter(
         (route) => route.label === 'Bookings',
@@ -41,6 +43,7 @@ const Bookings: React.FC = () => {
     }, [filter]);
 
     const getBookings = React.useCallback(async () => {
+        setLoading(true);
         try {
             const { data } = await axios.get(
                 process.env.NEXT_PUBLIC_BACKEND_URL_DEV + url,
@@ -51,10 +54,11 @@ const Bookings: React.FC = () => {
                     },
                 },
             );
-
+            setLoading(false);
             setBookings(data);
             console.log(data);
         } catch (e: any) {
+            setLoading(false);
             console.log(e);
             console.log(e.response?.data.message);
         }
@@ -90,6 +94,7 @@ const Bookings: React.FC = () => {
             {/* <h3 className='text-gray-500 font-bold text-2xl my-2'>
                 All Bookings
             </h3> */}
+            {loading && <Spinner />}
             {bookings &&
                 bookings.length > 0 &&
                 bookings.map(
