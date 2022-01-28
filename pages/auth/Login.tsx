@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
@@ -45,6 +46,10 @@ const Login = () => {
                 router.push('/admin');
             }
             const user = { ...response.user, token: response.token };
+            Cookies.set('token', response.token, { expires: 7 });
+            Cookies.set('userData', JSON.stringify(response.user), {
+                expires: 7,
+            });
             dispatch({ type: LOGIN_USER, payload: user });
             console.log(response);
         } catch (e) {}

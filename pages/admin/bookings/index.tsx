@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
 
 import Wrapper from 'Layout/Wrapper';
@@ -27,8 +28,10 @@ const Bookings: React.FC = () => {
         (route) => route.label === 'Bookings',
     );
 
+    // const { token, userData } = Cookies.get();
+
     const { user } = useSelector((state: AppState) => state?.user);
-    console.log({ user });
+    console.log({ user }, user?.email);
 
     useEffect(() => {
         if (filter === 'All') {
@@ -62,7 +65,7 @@ const Bookings: React.FC = () => {
             console.log(e);
             console.log(e.response?.data.message);
         }
-    }, [url, user.token]);
+    }, [url, user?.token]);
 
     useEffect(() => {
         getBookings();
@@ -95,8 +98,7 @@ const Bookings: React.FC = () => {
                 All Bookings
             </h3> */}
             {loading && <Spinner />}
-            {bookings &&
-                bookings.length > 0 &&
+            {bookings && bookings.length > 0 ? (
                 bookings.map(
                     ({
                         id,
@@ -150,7 +152,12 @@ const Bookings: React.FC = () => {
                             </div>
                         </div>
                     ),
-                )}
+                )
+            ) : (
+                <h2 className='text-gray-700 text-lg font-bold text-center '>
+                    No Records Found!
+                </h2>
+            )}
         </Wrapper>
     );
 };
