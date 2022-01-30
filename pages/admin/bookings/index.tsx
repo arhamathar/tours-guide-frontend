@@ -1,51 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import Wrapper from 'Layout/Wrapper';
-import adminRoutes from 'components/admin/adminRoutes';
-import AdminNavbar from 'components/admin/AdminNavbar';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+
+import Wrapper from 'Layout/Wrapper';
+import Spinner from 'components/Spinner';
+import { AppState } from 'Redux/reducers/rootReducer';
+import adminRoutes from 'components/admin/adminRoutes';
+
+export interface IBookings {
+    id: string;
+    startingDate: string | Date;
+    endingDate: string | Date;
+    userFName: string;
+    userLName: string;
+    hotelName: string;
+    price: number;
+}
 
 const Bookings: React.FC = () => {
-    const [bookings, setBookings] = useState<[]>([]);
+    const [bookings, setBookings] = useState<IBookings[] | null>(null);
     const [filter, setFilter] = useState<string>('ALL');
     const [url, setUrl] = useState<string>('/hotel/getAllBooking');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const bookingsRoutes = adminRoutes.filter(
         (route) => route.label === 'Bookings',
     );
 
+    // const { token, userData } = Cookies.get();
+
+    const { user } = useSelector((state: AppState) => state?.user);
+    console.log({ user }, user?.email);
+
     useEffect(() => {
         if (filter === 'All') {
-            setUrl('/hotel/getAllBooking');
+            setUrl('/hotel/getUserBookingList');
         } else if (filter === 'Past') {
-            setUrl('/hotel/getPastBooking');
+            setUrl(`/hotel/getUserBookingList?past=${true}`);
         } else if (filter === 'Future') {
-            setUrl('hotel/getFutureBooking');
+            setUrl(`/hotel/getUserBookingList?future=${true}`);
         } else {
-            setUrl('/hotel/getAllBooking');
+            setUrl('/hotel/getUserBookingList');
         }
     }, [filter]);
 
     const getBookings = React.useCallback(async () => {
+        setLoading(true);
         try {
-            const token =
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYWNmNzFlYWI2ZDc5NTM0MzQwZDgzMCIsImlhdCI6MTY0Mjk1MzA3MywiZXhwIjoxNjQzMDM5NDczfQ.YZQ2o6WA1D5iLnnIXmD9J2kI1Us9rYbUxsrXkQojqqU';
             const { data } = await axios.get(
                 process.env.NEXT_PUBLIC_BACKEND_URL_DEV + url,
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + token,
+                        Authorization: 'Bearer ' + user.token,
                     },
                 },
             );
-
-            setBookings(data.bookings);
+            setLoading(false);
+            setBookings(data);
             console.log(data);
         } catch (e: any) {
+            setLoading(false);
             console.log(e);
             console.log(e.response?.data.message);
         }
-    }, [url]);
+    }, [url, user?.token]);
 
     useEffect(() => {
         getBookings();
@@ -77,44 +97,67 @@ const Bookings: React.FC = () => {
             {/* <h3 className='text-gray-500 font-bold text-2xl my-2'>
                 All Bookings
             </h3> */}
-            <div className='flex flex-col shadow-lg p-4'>
-                <div className='flex justify-between mb-4'>
-                    <h4 className='text-2xl font-semibold text-gray-700'>
-                        Satna Bharhut Hotel
-                    </h4>
-                    <h4 className='text-lg font-bold flex flex-row-reverse'>
-                        ₹ 3,390 / night
-                    </h4>
-                </div>
-                <div className='flex justify-between gap-6'>
-                    <div>
-                        <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
-                            Traveller
-                        </h4>
-                        <p className='font-medium text-gray-600 '>
-                            Yash Mittal
-                        </p>
-                    </div>
-                    <div className='flex justify-between gap-6'>
-                        <div>
-                            <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
-                                Check In
-                            </h4>
-                            <p className='font-medium text-gray-600 '>
-                                24 Oct 2021
-                            </p>
+            {loading && <Spinner />}
+            {bookings && bookings.length > 0 ? (
+                bookings.map(
+                    ({
+                        id,
+                        hotelName,
+                        userFName,
+                        userLName,
+                        price,
+                        startingDate,
+                        endingDate,
+                    }) => (
+                        <div className='flex flex-col shadow-lg p-4' key={id}>
+                            <div className='flex justify-between mb-4'>
+                                <h4 className='text-2xl font-semibold text-gray-700'>
+                                    {hotelName}
+                                </h4>
+                                <h4 className='text-lg font-bold flex flex-row-reverse'>
+                                    ₹ {price} / night
+                                </h4>
+                            </div>
+                            <div className='flex justify-between gap-6'>
+                                <div>
+                                    <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
+                                        Traveller
+                                    </h4>
+                                    <p className='font-medium text-gray-600 '>
+                                        {userFName + ' ' + userLName}
+                                    </p>
+                                </div>
+                                <div className='flex justify-between gap-6'>
+                                    <div>
+                                        <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
+                                            Check In
+                                        </h4>
+                                        <p className='font-medium text-gray-600 '>
+                                            {new Date(
+                                                startingDate,
+                                            ).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
+                                            Check Out
+                                        </h4>
+                                        <p className='font-medium text-gray-600 '>
+                                            {new Date(
+                                                endingDate,
+                                            ).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4 className='font-medium text-gray-600 text-opacity-75 mb-1'>
-                                Check Out
-                            </h4>
-                            <p className='font-medium text-gray-600 '>
-                                26 Oct 2021
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    ),
+                )
+            ) : (
+                <h2 className='text-gray-700 text-lg font-bold text-center '>
+                    No Records Found!
+                </h2>
+            )}
         </Wrapper>
     );
 };

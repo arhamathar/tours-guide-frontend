@@ -1,14 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
 import useApi from 'hooks/useApi';
 import Card from 'components/Cards/Card';
 import Input from 'components/FormElements/Input';
 import Button from 'components/FormElements/Button';
+import { LOGIN_USER } from 'Redux/actionTypes/user';
 
 const Register = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const [signupUser, setSignupUser] = React.useState({
         firstName: '',
@@ -41,9 +45,15 @@ const Register = () => {
             const response = await sendRequest();
             if (response && response.user.role === 'Traveller') {
                 router.push('/');
-            } else {
+            } else if (response) {
                 router.push('/admin');
             }
+            const user = { ...response.user, token: response.token };
+            Cookies.set('token', response.token, { expires: 7 });
+            Cookies.set('userData', JSON.stringify(response.user), {
+                expires: 7,
+            });
+            dispatch({ type: LOGIN_USER, payload: user });
         } catch (e) {}
     };
 
