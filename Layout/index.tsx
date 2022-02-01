@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import Navbar from './Navbar';
+import Footer from 'Layout/Footer';
 
 import { LOGIN_USER } from 'Redux/actionTypes/user';
 
@@ -26,6 +27,7 @@ function Index({ children, className }: Partial<Iprops>) {
         <>
             {!pathname.includes('admin') && <Navbar active={true} />}
             <div className={`${className}`}>{children}</div>
+            {!pathname.includes('admin') && <Footer />}
         </>
     );
 }
