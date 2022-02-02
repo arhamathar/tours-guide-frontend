@@ -151,6 +151,11 @@ const Settings = () => {
                     </Dropzone>
                     {/* </div> */}
                 </div>
+                <div className='mb-4'>
+                    <button className='my-2 font-bold rounded bg-pink-500 hover:bg-pink-400 text-white px-3 py-2'>
+                        Update Profile
+                    </button>
+                </div>
             </div>
         </Wrapper>
     );
