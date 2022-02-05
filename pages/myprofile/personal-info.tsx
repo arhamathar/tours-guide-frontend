@@ -2,43 +2,59 @@ import Layout from '../../Layout/index';
 import LayoutBody from 'components/LayoutBody';
 import Input from 'components/FormElements/Input';
 import Autocomplete from 'react-google-autocomplete';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { AppState } from 'Redux/reducers/rootReducer';
 import Button from 'components/FormElements/Button';
 
 export default function index() {
+    const { user } = useSelector((state: AppState) => state?.user);
+    console.log({ user });
+
+    // console.log(user?.firstName);
     const [name, setName] = useState<string>('Ashutosh Singh');
+    const [gender, setGender] = useState<string>('');
+    const [address, setAddress] = useState<string>('Ashutosh Singh');
+    const [firstName, setFirstName] = useState<string>(user?.firstName);
+    const [lastName, setLastName] = useState<string>(user?.lastName);
+
+    // useEffect(() => {
+    //     setFirstName(user?.firstName);
+    //     setLastName(user?.lastName);
+    // }, []);
+
     return (
         <Layout>
             <LayoutBody className='flex flex-col space-y-10'>
                 <h4 className='text-4xl font-semibold'>My Personal Info</h4>
                 <div className='grid grid-cols-2 gap-2'>
                     <Input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         label='First Name'
                         name='First Name'
                         type='text'
                         placeholder='Enter Your First Name'
                     ></Input>
                     <Input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         label='Last Name'
                         name='First Name'
                         type='text'
                         placeholder='Enter Your Last Name'
                     ></Input>
                     <Input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                         label='Gender'
                         name='Dropdown'
                         inputType='dropdown'
                         placeholder='Enter Your Last Name'
                     ></Input>
                     <Input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                         label='Address'
                         name='Dropdown'
                         inputType='text'

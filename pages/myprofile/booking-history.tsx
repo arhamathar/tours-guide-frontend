@@ -2,19 +2,30 @@ import Layout from '../../Layout/index';
 import LayoutBody from 'components/LayoutBody';
 import Input from 'components/FormElements/Input';
 import Autocomplete from 'react-google-autocomplete';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'components/FormElements/Button';
+import { AppState } from 'Redux/reducers/rootReducer';
 
-export default function index() {
+import { useSelector } from 'react-redux';
+import { getAllPastBookings } from 'utils/api';
+import Cookies from 'js-cookie';
+
+export default function index({ pastBookings, res }) {
     const [name, setName] = useState<string>('Ashutosh Singh');
+
+    const [allPastBookings, setAllPastBookings] = useState<any>(pastBookings.data);
     return (
         <Layout>
             <LayoutBody className='flex flex-col space-y-10'>
                 <h4 className='text-4xl font-semibold'>Booking History</h4>
                 <div className='space-y-4'>
-                    {[0, 1, 2, 3, 4].map((el) => {
-                        return (
-                            <div className='grid grid-cols-2 gap-6 shadow-lg p-4'>
+                    {allPastBookings.length == 0 && <h1 className='text-xl text-gray-400 font-semibold'>No Past Bookings</h1>}
+                    {allPastBookings &&
+                        allPastBookings.map((booking: any) => (
+                            <div
+                                className='grid grid-cols-2 gap-6 shadow-lg p-4'
+                                key={booking._id}
+                            >
                                 <h4 className='text-2xl font-semibold text-gray-900'>
                                     Satna Bharhut Hotel
                                 </h4>
@@ -45,10 +56,26 @@ export default function index() {
                                     </button>
                                 </div>
                             </div>
-                        );
-                    })}
+                        ))}
                 </div>
             </LayoutBody>
         </Layout>
     );
+}
+
+export async function getServerSideProps(ctx: any) {
+    console.clear();
+    console.log('ctx: ', ctx.req.cookies.token);
+
+    // console.log('inside static prps');
+    const pastBookings = await getAllPastBookings(ctx.req.cookies.token);
+
+    console.log('pastBookings: ', pastBookings);
+    const res = 'sfsdf';
+    return {
+        props: {
+            pastBookings,
+            res,
+        },
+    };
 }
