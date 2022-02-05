@@ -14,7 +14,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import configureStore from 'Redux/store/configureStore';
 // import Layout from 'components/Layout';
-import Layout from 'Layout';
+import Layout from './../Layout';
+
 
 const store = configureStore();
 

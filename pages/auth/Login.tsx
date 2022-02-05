@@ -46,8 +46,14 @@ const Login = () => {
                 router.push('/admin');
             }
             const user = { ...response.user, token: response.token };
-            Cookies.set('token', response.token, { expires: 7 });
+            // Cookies.set('token', response.token, { expires: 7 });
+            console.log('token: ', response.token);
+            const token = response.token;
+            Cookies.set('token', token, { path: '/', expires: 7 });
+            console.log('tck : ', Cookies.get('token'));
+            // Cookies.set('userData', JSON.stringify(response.user), {
             Cookies.set('userData', JSON.stringify(response.user), {
+                path: '/',
                 expires: 7,
             });
             dispatch({ type: LOGIN_USER, payload: user });

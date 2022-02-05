@@ -18,7 +18,10 @@ const useApi = ({
     config,
 }: Options) => {
     config = { ...config, method, data: { ...defaultResponse } };
-    axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
+    // axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL_DEV;
+    axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+
+    console.log('dev url', process.env.NEXT_PUBLIC_BACKEND_URL_DEV);
 
     const [state, setState] = React.useState<{
         loading: boolean;
@@ -43,7 +46,7 @@ const useApi = ({
             return data;
         } catch (e: any) {
             // console.log(e.response.data);
-           // toast.error(e.response.data.message || 'Something went wrong');
+            // toast.error(e.response.data.message || 'Something went wrong');
             setState({ loading: false, response: null, errorResponse: e });
             nProgress.done();
         }
