@@ -9,7 +9,7 @@ import NavButton from 'components/swiper/NavButton';
 import SwiperSection from 'components/swiper/SwiperSection';
 import Navbar from 'Layout/Navbar';
 import { AiOutlineSearch as SearchIcon } from 'react-icons/ai';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaUser } from 'react-icons/fa';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
 
                         
                         <div onClick={() => setCalenderFocus(true)} className='border-2 border-gray-400 rounded-lg grid grid-cols-2 justify-between px-2 items-center'>
-                            <SearchIcon className='text-3xl text-gray-400 flex-grow' />
+                            <FaCalendarAlt className='text-xl text-gray-400 flex-grow' />
                             <input
                                 disabled
                                 
@@ -76,7 +76,7 @@ const Home: NextPage = () => {
                             />
                         </div>
                         <div className='border-2 border-gray-400 rounded-lg grid grid-cols-2 justify-between px-2 items-center'>
-                            <SearchIcon className='text-3xl text-gray-400 flex-grow' />
+                            <FaUser className='text-xl text-gray-400 flex-grow' />
                             <input
                                 type='text'
                                 placeholder='Peoples'
