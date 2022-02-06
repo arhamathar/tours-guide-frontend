@@ -1,8 +1,8 @@
+//@ts-ignore
 import Layout from '../../Layout/index';
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { Marker, InfoBox } from '@react-google-maps/api';
-//@ts-ignore
 import { AiOutlineHeart, AiTwotoneStar } from 'react-icons/ai';
 import { mapDarkmode } from 'helpers/constants';
 import { StandaloneSearchBox } from '@react-google-maps/api';
@@ -10,6 +10,7 @@ import Input from 'components/FormElements/Input';
 import ReactPaginate from 'react-paginate';
 import { getAllHotels, getAllHotelsOfPage } from 'utils/api';
 import Pagination from '@mui/material/Pagination';
+import Link from 'next/link';
 
 interface coords {
     lat: number;
@@ -112,7 +113,9 @@ export default function Index({ totalPages }) {
                 {/* @ts-ignore */}
                 {hotels.length &&
                     hotels.map(({ _id, hotelName }) => (
-                        <div key={_id}>
+                        <>
+                            <Link href={`/Hotel/${_id}`}>
+                            <div key={_id}>
                             <div className='py-4 border-t border-b'>
                                 <div className='grid grid-cols-5 space-x-4'>
                                     <img
@@ -166,6 +169,8 @@ export default function Index({ totalPages }) {
                                 </div>
                             </div>
                         </div>
+                            </Link>
+                        </>
                     ))}
                 {/* <PaginatedItems itemsPerPage={5} /> */}
                 <Pagination
