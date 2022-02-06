@@ -1,17 +1,22 @@
 import { ReactNode } from 'react';
 import Layout from '../../Layout/index';
 import LayoutBody from 'components/LayoutBody';
-
+import { useSelector } from 'react-redux';
+import { AppState } from 'Redux/reducers/rootReducer';
 import { AiOutlineIdcard as PersonalInfo } from 'react-icons/ai';
 import Card from '../../components/Cards/ProfileCard';
 
 export default function index() {
+    const { user } = useSelector((state: AppState) => state?.user);
+    
     return (
         <Layout>
             <LayoutBody className='space-y-10'>
                 <div>
                     <h4 className='text-4xl font-semibold'>Profile</h4>
-                    <p className='text-lg'>Welcome, Ashutosh Singh</p>
+                    <p className='text-lg'>
+                        Welcome, {user?.firstName} {user?.lastName} 
+                    </p>
                 </div>
                 <div className='grid grid-cols-3 gap-8'>
                     <Card
