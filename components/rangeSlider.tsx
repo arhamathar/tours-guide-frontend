@@ -18,7 +18,8 @@ const rangeSlider: React.FC<IProps> = ({
             </div>
             <input type="range" id="volume" min="0" max="5" value={volume} step="0.1"></input>
             <Slider 
-             volume={volume}
+            //@ts-ignore
+             value={volume}
              min={0}
              max={5}
              step={0.1}
